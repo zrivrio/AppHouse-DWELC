@@ -1,0 +1,31 @@
+<h2 class="section-heading">You want to login for more information</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()"> 
+  <label for="first-name">First Name</label>
+  <input id="first-name" type="text" formControlName="firstName" />
+  <div *ngIf="loginForm.get('firstName')?.invalid && loginForm.get('firstName')?.touched" class="error">
+    First Name is required.
+  </div>
+
+  <label for="last-name">Last Name</label>
+  <input id="last-name" type="text" formControlName="lastName" />
+  <div *ngIf="loginForm.get('lastName')?.invalid && loginForm.get('lastName')?.touched" class="error">
+    Last Name is required.
+  </div>
+
+  <label for="email">Email</label>
+  <input id="email" type="email" formControlName="email" />
+  <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
+    <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
+    <span *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</span>
+  </div>
+
+  <button type="submit" class="primary" [disabled]="loginForm.invalid">Login now</button>
+</form>
+
+<style>
+  .error {
+    color: red;
+    font-size: 0.8em;
+  }
+</style>
