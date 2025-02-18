@@ -10,6 +10,7 @@ import {RouterModule} from '@angular/router';
   styleUrl: './housing-location.component.css'
 })
 export class HousingLocationComponent {
+  //Coje los datos del padre que se encuntra en el home.componet.ts
   @Input() housingLocation!: Housinglocation;
 
 }
