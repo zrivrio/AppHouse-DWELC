@@ -8,6 +8,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/bernard-hermant-CLKGGwIBTaY-unsplash.jpg",
             "availableUnits": 4,
             "wifi": true,
+            "security":["alarmas", "camaras"],
             "laundry": true,
             "coordinates": { "latitude": 41.8781, "longitude": -87.6298 }
         },
@@ -19,6 +20,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/brandon-griggs-wR11KBaB86U-unsplash.jpg",
             "availableUnits": 0,
             "wifi": false,
+            "security":["alarmas", "purtas reforzadas"],
             "laundry": true,
             "coordinates": { "latitude": 34.0195, "longitude": -118.4912 }
         },
@@ -30,6 +32,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/i-do-nothing-but-love-lAyXdl1-Wmc-unsplash.jpg",
             "availableUnits": 1,
             "wifi": false,
+            "security":["detectore de humo", "camaras"],
             "laundry": false,
             "coordinates": { "latitude": 58.3019, "longitude": -134.4197 }
         },
@@ -41,6 +44,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/ian-macdonald-W8z6aiwfi1E-unsplash.jpg",
             "availableUnits": 1,
             "wifi": true,
+            "security":["camaras"],
             "laundry": false,
             "coordinates": { "latitude": 41.8781, "longitude": -87.6298 }
         },
@@ -52,6 +56,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/krzysztof-hepner-978RAXoXnH4-unsplash.jpg",
             "availableUnits": 1,
             "wifi": true,
+            "security":["alarmas"],
             "laundry": false,
             "coordinates": { "latitude": 41.5934, "longitude": -87.3464 }
         },
@@ -63,6 +68,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/r-architecture-JvQ0Q5IkeMM-unsplash.jpg",
             "availableUnits": 2,
             "wifi": true,
+            "security":["detectore de humo","camaras"],
             "laundry": true,
             "coordinates": { "latitude": 37.8044, "longitude": -122.2711 }
         },
@@ -74,6 +80,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/phil-hearing-IYfp2Ixe9nM-unsplash.jpg",
             "availableUnits": 5,
             "wifi": true,
+            "security":["camaras"],
             "laundry": true,
             "coordinates": { "latitude": 37.8044, "longitude": -122.2711 }
         },
@@ -85,6 +92,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/r-architecture-GGupkreKwxA-unsplash.jpg",
             "availableUnits": 2,
             "wifi": true,
+            "security":["alarmas"],
             "laundry": true,
             "coordinates": { "latitude": 37.8044, "longitude": -122.2711 }
         },
@@ -96,6 +104,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/saru-robert-9rP3mxf8qWI-unsplash.jpg",
             "availableUnits": 10,
             "wifi": false,
+            "security":["alarmas", "camaras", "detectore de humo"],
             "laundry": false,
             "coordinates": { "latitude": 37.8044, "longitude": -122.2711 }
         },
@@ -107,6 +116,7 @@
             "photo": "https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg",
             "availableUnits": 6,
             "wifi": true,
+            "security":[],
             "laundry": true,
             "coordinates": { "latitude": 45.5152, "longitude": -122.6784 }
         }
