@@ -19,9 +19,6 @@ export class AddHomeComponent {
 
   listaCasas : Housinglocation[] = []
 
-
-
-
   constructor(
     private fb: FormBuilder,
     private houseService: HousingService
@@ -45,8 +42,7 @@ export class AddHomeComponent {
   onSubmit(): void{
     if(this.eventForm.valid){
       const nuevaCasa: Housinglocation = {
-        id: Number((this.listaCasas[this.listaCasas.length - 1].id)+
-         Number(1) ),
+        id: this.listaCasas.length + 1,
         name : this.eventForm.value.name,
         city: this.eventForm.value.city,
         state: this.eventForm.value.state,
@@ -56,7 +52,11 @@ export class AddHomeComponent {
         laundry: this.eventForm.value.laundry,
         security: this.eventForm.value.security,
       }
-      this.houseService.addEvento(nuevaCasa);
+      this.houseService.addEvento(nuevaCasa).subscribe(
+        () => {
+         console.log(nuevaCasa);
+       }
+      );
       this.eventForm.reset();
     }
   }

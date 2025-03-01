@@ -1,72 +1,76 @@
 <div class="container mt-4">
-    <h2>Registrar una Propiedad</h2>
-    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-      <!-- Título -->
-      <div class="mb-3">
-        <label for="name" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="title" formControlName="name" required>
-        <div *ngIf="eventForm.get('name')?.invalid && eventForm.get('name')?.touched" class="text-danger">
-          El título es requerido.
-        </div>
+  <h2>Registrar una Propiedad</h2>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" formControlName="name" required>
+      <div *ngIf="eventForm.get('name')?.invalid && eventForm.get('name')?.touched" class="text-danger">
+        El nombre es requerido.
       </div>
-  
-      <!-- City -->
-      <div class="mb-3">
-        <label for="city" class="form-label">Ciudad</label>
-        <input class="form-control" id="city" formControlName="city" required>
-        <div *ngIf="eventForm.get('city')?.invalid && eventForm.get('city')?.touched" class="text-danger">
-          La ciudad es requerida.
-        </div>
-      </div>
-  
-      <!-- state -->
-      <div class="mb-3">
-        <label for="state" class="form-label">Estado</label>
-        <input class="form-control" id="state" formControlName="state" required maxlength="2">
-        <div *ngIf="eventForm.get('state')?.invalid && eventForm.get('state')?.touched" class="text-danger">
-          El estado es requerido.
-        </div>
-      </div>
-  
-      <!-- photo -->
-      <div class="mb-3">
-        <label for="photo" class="form-label">Foto</label>
-        <input class="form-control" id="photo" formControlName="photo">
-      </div>
-  
-      <!-- availableUnits -->
-      <div class="mb-3">
-        <label for="availableUnits" class="form-label">Unidades disponibles</label>
-        <input type="text" class="form-control" id="availableUnits" formControlName="availableUnits" required>
-        <div *ngIf="eventForm.get('availableUnits')?.invalid && eventForm.get('availableUnits')?.touched" class="text-danger">
-          La unidades disponibles son requeridas.
-        </div>
-      </div>
-  
-      <!-- wifi -->
-      <div class="mb-3">
-        <label for="wifi" class="form-label">Unidades disponibles</label>
-        <input type="checkbox" class="form-control" id="wifi" formControlName="wifi">
-      </div>
+    </div>
 
-       <!-- laundry -->
-       <div class="mb-3">
-        <label for="laundry" class="form-label">Unidades disponibles</label>
-        <input type="checkbox" class="form-control" id="laundry" formControlName="laundry">
+    <!-- City -->
+    <div class="mb-3">
+      <label for="city" class="form-label">Ciudad</label>
+      <input class="form-control" id="city" formControlName="city" required>
+      <div *ngIf="eventForm.get('city')?.invalid && eventForm.get('city')?.touched" class="text-danger">
+        La ciudad es requerida.
       </div>
+    </div>
 
-      <div>
-        <label for="security">security</label>
-        <select id="security" formControlName="security" required>
-          <option value="">Select a security option</option>
-          <option value="alarma">Alarma</option>
-          <option value="camara">camara</option>
-          <option value="puertas reforzadas">puertas reforzadas</option>
-          <option value="detectores de humo">detectores de humo</option>
-        </select>
+    <!-- State -->
+    <div class="mb-3">
+      <label for="state" class="form-label">Estado</label>
+      <input class="form-control" id="state" formControlName="state" required maxlength="2">
+      <div *ngIf="eventForm.get('state')?.invalid && eventForm.get('state')?.touched" class="text-danger">
+        El estado es requerido.
       </div>
-      <!-- Botón de envío -->
-      <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Registrar Evento</button>
-    </form>
-  </div>
-  
+    </div>
+
+    <!-- Photo -->
+    <div class="mb-3">
+      <label for="photo" class="form-label">Foto</label>
+      <input class="form-control" id="photo" formControlName="photo">
+    </div>
+
+    <!-- Available Units -->
+    <div class="mb-3">
+      <label for="availableUnits" class="form-label">Unidades disponibles</label>
+      <input type="text" class="form-control" id="availableUnits" formControlName="availableUnits" required>
+      <div *ngIf="eventForm.get('availableUnits')?.invalid && eventForm.get('availableUnits')?.touched" class="text-danger">
+        Las unidades disponibles son requeridas.
+      </div>
+    </div>
+
+    <!-- WiFi -->
+    <div class="mb-3">
+      <label for="wifi" class="form-label">WiFi</label>
+      <input type="checkbox" class="form-check-input" id="wifi" formControlName="wifi">
+    </div>
+
+    <!-- Laundry -->
+    <div class="mb-3">
+      <label for="laundry" class="form-label">Laundry</label>
+      <input type="checkbox" class="form-check-input" id="laundry" formControlName="laundry">
+    </div>
+
+    <!-- Security -->
+    <div class="mb-3">
+      <label for="security" class="form-label">Security</label>
+      <select id="security" class="form-control" formControlName="security" required>
+        <option value="">Select a security option</option>
+        <option value="alarma">Alarma</option>
+        <option value="camara">Camara</option>
+        <option value="puertas reforzadas">Puertas reforzadas</option>
+        <option value="detectores de humo">Detectores de humo</option>
+      </select>
+      <div *ngIf="eventForm.get('security')?.invalid && eventForm.get('security')?.touched" class="text-danger">
+        Security option is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Registrar Propiedad</button>
+  </form>
+</div>
