@@ -17,7 +17,14 @@
       <li>Does this location have laundry: {{ housingLocation?.laundry }}</li>
       <li>Does this location have security: {{ housingLocation?.security }}</li>
     </ul>
+
+    <section class="listing-map">
+      <h2 class="section-heading">Location on the map</h2>
+    <div *ngIf="housingLocation" [id]="'map-' + housingLocation.id" style="height: 400px;"></div>
+    </section>
+
   </section>
+
   <section class="listing-apply">
     <h2 class="section-heading">Apply now to live here</h2>
     <form [formGroup]="applyForm" (submit)="submitApplication()">

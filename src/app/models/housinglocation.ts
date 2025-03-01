@@ -8,4 +8,8 @@ export interface Housinglocation {
   security: string[];
   wifi: boolean;
   laundry: boolean;
+  coordinates: {  
+    latitude: number;
+    longitude: number;
+  };
 }

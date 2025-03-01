@@ -51,12 +51,13 @@ export class AddHomeComponent {
         wifi: this.eventForm.value.wifi,
         laundry: this.eventForm.value.laundry,
         security: this.eventForm.value.security,
+        coordinates: {latitude: 0, longitude: 0}
       }
-      this.houseService.addEvento(nuevaCasa).subscribe(
-        () => {
-         console.log(nuevaCasa);
-       }
-      );
+      // this.houseService.addEvento(nuevaCasa).subscribe(
+      //   () => {
+      //    console.log(nuevaCasa);
+      //  }
+      // );
       this.eventForm.reset();
     }
   }

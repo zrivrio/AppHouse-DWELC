@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../../services/housing.service';
 import { Housinglocation } from '../../models/housinglocation';
@@ -14,10 +14,12 @@ import { ClientM } from '../../models/client';
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
-export class DetailsComponent {
+export class DetailsComponent  {
 
 //Crear un modelo de cliente
   client!: ClientM;
+
+  private isBrowser: boolean;
 
   //Llamar al servicio para poder acceder a toodo los metodos que tiene (hace lo mismo o casi lo mismo que si lo llamas en el constructor)
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -35,11 +37,14 @@ export class DetailsComponent {
   });
 
   //Obtienes la id que se encuntra en la url y facer que la funcion te la busque
-  constructor() {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object, 
+  ) {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
     this.housingService.getHousingLocationById(housingLocationId).then((housingLocation) => {
       this.housingLocation = housingLocation;
     });
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   //Funcion que le pasa a la funcion del service los parametros necesearios.
@@ -66,4 +71,5 @@ export class DetailsComponent {
     this.formService.saveToLocalStorage(this.client);
   }
 
+ 
 }

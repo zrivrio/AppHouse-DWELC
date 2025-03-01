@@ -10,7 +10,7 @@ export class HousingService {
   //Funcion en la que obtiene del json el array de las propiedades
   url = 'http://localhost:3000/locations';
   
-  constructor( private http : HttpClient){}
+  // constructor( private http : HttpClient){}
   async getAllHousingLocations(): Promise<Housinglocation[]> {
     const data = await fetch(this.url);
     return (await data.json()) ?? [];
@@ -27,7 +27,7 @@ export class HousingService {
     console.log(firstName, lastName, email);
   }
 
-  addEvento(casa: Housinglocation): Observable<Housinglocation> {
-    return this.http.post<Housinglocation>(this.url, casa);
-  }
+  // addEvento(casa: Housinglocation): Observable<Housinglocation> {
+  //   return this.http.post<Housinglocation>(this.url, casa);
+  // }
 }
