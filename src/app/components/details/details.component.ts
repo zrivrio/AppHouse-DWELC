@@ -12,42 +12,33 @@ import { ClientM } from '../../models/client';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.css',
+  styleUrls: ['./details.component.css'],
 })
-export class DetailsComponent  {
+export class DetailsComponent implements AfterViewInit {
 
-//Crear un modelo de cliente
   client!: ClientM;
-
   private isBrowser: boolean;
-
-  //Llamar al servicio para poder acceder a toodo los metodos que tiene (hace lo mismo o casi lo mismo que si lo llamas en el constructor)
   route: ActivatedRoute = inject(ActivatedRoute);
   housingService = inject(HousingService);
   formService = inject(FormService);
 
-  //Crear un modelo de propiedad
   housingLocation: Housinglocation | undefined;
-  
-  //Una forma de validar un formulario
+
   applyForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  //Obtienes la id que se encuntra en la url y facer que la funcion te la busque
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: object, 
-  ) {
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
     this.housingService.getHousingLocationById(housingLocationId).then((housingLocation) => {
       this.housingLocation = housingLocation;
     });
+
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  //Funcion que le pasa a la funcion del service los parametros necesearios.
   submitApplication() {
     this.housingService.submitApplication(
       this.applyForm.value.firstName ?? '',
@@ -56,7 +47,6 @@ export class DetailsComponent  {
     );
   }
 
-  //funcion que crea
   createClient(): ClientM {
     return {
       id: Number(new Date()),
@@ -71,5 +61,31 @@ export class DetailsComponent  {
     this.formService.saveToLocalStorage(this.client);
   }
 
- 
+  ngAfterViewInit(): void {
+    if (this.isBrowser && this.housingLocation) {
+      this.loadLeafletAndInitializeMap();
+    }
+  }
+
+  loadLeafletAndInitializeMap(): void {
+    if (this.isBrowser) {
+      import('leaflet').then((L) => {
+        const { latitude, longitude } = this.housingLocation?.coordinates || {};
+        
+        if (latitude && longitude) {
+          const map = L.map('map').setView([latitude, longitude], 13); 
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+          L.marker([latitude, longitude]).addTo(map)
+            .bindPopup(`<b>${this.housingLocation?.name}</b><br>${this.housingLocation?.city}, ${this.housingLocation?.state}`)
+            .openPopup();
+        } else {
+          console.error('Las coordenadas no son válidas para el mapa.');
+        }
+      }).catch((error) => {
+        console.error('Error cargando Leaflet:', error);
+      });
+    }
+  }
 }
