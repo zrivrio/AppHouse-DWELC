@@ -60,3 +60,12 @@
       height: 400px;
     }
   }
+
+ #map {
+  height: 400px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+  

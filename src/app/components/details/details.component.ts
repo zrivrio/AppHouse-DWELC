@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import {Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../../services/housing.service';
@@ -6,6 +6,7 @@ import { Housinglocation } from '../../models/housinglocation';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';
 import { ClientM } from '../../models/client';
+import * as L from 'leaflet'
 
 @Component({
   selector: 'app-details',
@@ -14,13 +15,11 @@ import { ClientM } from '../../models/client';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
 })
-export class DetailsComponent implements AfterViewInit {
+export class DetailsComponent {
 
   client!: ClientM;
-  private isBrowser: boolean;
-  route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
-  formService = inject(FormService);
+  map!: L.Map;
+  isBrowser: boolean;
 
   housingLocation: Housinglocation | undefined;
 
@@ -30,13 +29,18 @@ export class DetailsComponent implements AfterViewInit {
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor(
+    private route: ActivatedRoute,
+    private housingService: HousingService,
+    private formService: FormService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
     this.housingService.getHousingLocationById(housingLocationId).then((housingLocation) => {
       this.housingLocation = housingLocation;
     });
-
-    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   submitApplication() {
@@ -61,31 +65,48 @@ export class DetailsComponent implements AfterViewInit {
     this.formService.saveToLocalStorage(this.client);
   }
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser && this.housingLocation) {
-      this.loadLeafletAndInitializeMap();
-    }
-  }
 
-  loadLeafletAndInitializeMap(): void {
+  async ngAfterViewInit(): Promise<void> {
     if (this.isBrowser) {
-      import('leaflet').then((L) => {
-        const { latitude, longitude } = this.housingLocation?.coordinates || {};
-        
-        if (latitude && longitude) {
-          const map = L.map('map').setView([latitude, longitude], 13); 
-
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-          L.marker([latitude, longitude]).addTo(map)
-            .bindPopup(`<b>${this.housingLocation?.name}</b><br>${this.housingLocation?.city}, ${this.housingLocation?.state}`)
-            .openPopup();
-        } else {
-          console.error('Las coordenadas no son válidas para el mapa.');
-        }
-      }).catch((error) => {
-        console.error('Error cargando Leaflet:', error);
-      });
+      const L = await import('leaflet');
+  
+      this.housingService.getHousingLocationById(parseInt(this.route.snapshot.params['id'], 10))
+        .then((housingLocation) => {
+          this.housingLocation = housingLocation;
+          if (this.housingLocation) {
+            this.initMap(L);
+          }
+        });
     }
   }
+  
+
+  private initMap(L: any): void {
+    if (!this.housingLocation) return;
+  
+    setTimeout(() => {
+      this.map = L.map('map').setView(
+        [this.housingLocation?.coordinates.latitude, this.housingLocation?.coordinates.longitude], 
+        13
+      );
+  
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(this.map);
+  
+      // 🔹 Definir un icono personalizado
+      const customIcon = L.icon({
+        iconUrl: 'assets/marcador.png',  
+        iconSize: [40, 40], 
+        iconAnchor: [20, 40], 
+        popupAnchor: [0, -40] 
+      });
+  
+      L.marker([this.housingLocation?.coordinates.latitude, this.housingLocation?.coordinates.longitude], { icon: customIcon })
+        .addTo(this.map)
+        .bindPopup(`<b>${this.housingLocation?.name}</b><br>${this.housingLocation?.city}, ${this.housingLocation?.state}`)
+        .openPopup();
+    }, 100);
+  }
+  
 }
