@@ -1,4 +1,4 @@
-import {Injectable } from '@angular/core';
+import {Injectable, inject } from '@angular/core';
 import { Housinglocation } from '../models/housinglocation';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,8 +9,11 @@ import { Observable } from 'rxjs';
 export class HousingService {
   //Funcion en la que obtiene del json el array de las propiedades
   url = 'http://localhost:3000/locations';
+
+  private http = inject(HttpClient);
+
+  constructor() {}
   
-  // constructor( private http : HttpClient){}
   async getAllHousingLocations(): Promise<Housinglocation[]> {
     const data = await fetch(this.url);
     return (await data.json()) ?? [];
@@ -27,7 +30,7 @@ export class HousingService {
     console.log(firstName, lastName, email);
   }
 
-  // addEvento(casa: Housinglocation): Observable<Housinglocation> {
-  //   return this.http.post<Housinglocation>(this.url, casa);
-  // }
+  addEvento(casa: Housinglocation): Observable<Housinglocation> {
+    return this.http.post<Housinglocation>(this.url, casa);
+  }
 }

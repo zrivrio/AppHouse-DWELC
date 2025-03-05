@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Housinglocation } from '../../models/housinglocation';
 import { CommonModule } from '@angular/common';
@@ -11,17 +11,18 @@ import { HomeComponent } from '../home/home.component';
   selector: 'app-add-home',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-home.component.html',
-  styleUrl: './add-home.component.css'
+  styleUrl: './add-home.component.css',
+
 })
 export class AddHomeComponent {
 
   eventForm: FormGroup;
+  houseService = inject(HousingService);
 
   listaCasas : Housinglocation[] = []
 
   constructor(
     private fb: FormBuilder,
-    private houseService: HousingService
   ){
     this.eventForm = this.fb.group({
       name: ['Los Torres', Validators.required],
@@ -41,8 +42,9 @@ export class AddHomeComponent {
 
   onSubmit(): void{
     if(this.eventForm.valid){
+      const idMayor = Math.max(...this.listaCasas.map(l => l.id));
       const nuevaCasa: Housinglocation = {
-        id: this.listaCasas.length + 1,
+        id: idMayor + 1,
         name : this.eventForm.value.name,
         city: this.eventForm.value.city,
         state: this.eventForm.value.state,
@@ -53,11 +55,11 @@ export class AddHomeComponent {
         security: this.eventForm.value.security,
         coordinates: {latitude: 0, longitude: 0}
       }
-      // this.houseService.addEvento(nuevaCasa).subscribe(
-      //   () => {
-      //    console.log(nuevaCasa);
-      //  }
-      // );
+      this.houseService.addEvento(nuevaCasa).subscribe(
+        () => {
+         console.log(nuevaCasa);
+       }
+      );
       this.eventForm.reset();
     }
   }
